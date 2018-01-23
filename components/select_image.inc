@@ -62,9 +62,9 @@ function _webform_edit_select_image($component) {
     $tooltips = explode('||', $component['extra']['tooltips']);
   }
 
-  $classes = array();
-  if(!empty($component['extra']['classes'])) {
-    $classes = explode('||', $component['extra']['classes']);
+  $ribbon = array();
+  if(!empty($component['extra']['ribbon'])) {
+    $ribbon = explode('||', $component['extra']['ribbon']);
   }
 
   // Create form
@@ -112,11 +112,11 @@ function _webform_edit_select_image($component) {
       '#element_validate' => array('_webform_select_image_tooltip_validate'),
     );
 
-    $form['items']['images'][$i]['classes'] = array(
+    $form['items']['images'][$i]['ribbon'] = array(
       '#type' => 'textfield',
-      '#title' => t('Classes'),
-      '#default_value' => (isset($classes[$i]) ? $classes[$i] : ''),
-      '#element_validate' => array('_webform_select_image_classes_validate'),
+      '#title' => t('Ribbon'),
+      '#default_value' => (isset($ribbon[$i]) ? $ribbon[$i] : ''),
+      '#element_validate' => array('_webform_select_image_ribbon_validate'),
     );
   }
 
@@ -613,7 +613,7 @@ function _webform_select_image_options($component, $html = TRUE) {
       $filename = !empty($values[1]) ? $values[1] : NULL;
       $legend = !empty($values[2]) ? $values[2] : NULL;
       $tooltip = !empty($values[3]) ? $values[3] : NULL;
-      $classes = !empty($values[4]) ? $values[4] : NULL;
+      $ribbon = !empty($values[4]) ? $values[4] : NULL;
       if($file = file_load($fid)) {
         if($html) {
           if(!empty($component['extra']['image_style'])) {
@@ -622,9 +622,6 @@ function _webform_select_image_options($component, $html = TRUE) {
               array(
                 'style_name' => $component['extra']['image_style'],
                 'path' => $file->uri,
-                'attributes' => array(
-                  'class' => $classes
-                )
               )
             );
           }
@@ -633,14 +630,14 @@ function _webform_select_image_options($component, $html = TRUE) {
               'image',
               array(
                 'path' => $file->uri,
-                'attributes' => array(
-                  'class' => $classes
-                )
               )
             );
           }
+          $options[$fid] = '<div class="webform-select-image-img-wrapper">'.$options[$fid].'</div>';
           $options[$fid] .= !empty($legend) ? '<p class="webform-select-image-legend webform-select-image-legend-' . $fid . '">' . $legend . '</p>' : '';
-          $options[$fid] .= !empty($tooltip) ? '<p class="webform-select-image-tooltip webform-select-image-tooltip-' . $fid . '">' . $tooltip . '</p>' : '';
+          $options[$fid] .= !empty($tooltip) ? '<div class="webform-select-image-tooltip webform-select-image-tooltip-' . $fid . '">' . $tooltip . '</div>' : '';
+          $options[$fid] .= !empty($ribbon) ? '<div class="webform-select-image-ribbon webform-select-image-ribbon-' . $fid . '"><div class="wfs-ribbon--outer"><div class="wfs-ribbon"><div class="wfs-ribbon--text">' . $ribbon . '</div></div></div></div>' : '';
+          $options[$fid] = '<div class="webform-select-image-wrapper">'.$options[$fid].'</div>';
         }
         else {
           $options[$fid] = $file->filename;
@@ -694,16 +691,16 @@ function _webform_select_tooltips_to_text($items) {
 }
 
 /**
- * Convert an array of classes into text.
+ * Convert an array of ribbon into text.
  */
-function _webform_select_classes_to_text($items) {
-  $classes = array();
+function _webform_select_ribbon_to_text($items) {
+  $ribbon = array();
   foreach ($items as $key => $value) {
-    if(!empty($value['classes'])) {
-      $classes[] = $value['classes'];
+    if(!empty($value['ribbon'])) {
+      $ribbon[] = $value['ribbon'];
     }
   }
-  return  implode('||', $classes);
+  return  implode('||', $ribbon);
 }
 
 /**
@@ -713,7 +710,7 @@ function _webform_select_image_options_to_text($items) {
   $output = '';
   foreach ($items as $key => $item) {
     if($file = file_load($item['src']['fid'])) {
-      $output .= $file->fid . '||' . $file->filename . '||' . $item['legend'] . '||' . $item['tooltip'] . '||' . $item['classes'] . "\n";
+      $output .= $file->fid . '||' . $file->filename . '||' . $item['legend'] . '||' . $item['tooltip'] . '||' . $item['ribbon'] . "\n";
     }
   }
   return $output;
