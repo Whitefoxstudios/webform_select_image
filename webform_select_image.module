@@ -78,7 +78,7 @@ function _webform_select_image_edit_validate($element, &$form_state) {
     $form_state['values']['extra']['images'] = _webform_select_images_to_text($element_options['images'], 'custom');
     $form_state['values']['extra']['legends'] = _webform_select_legends_to_text($element_options['images'], 'custom');
     $form_state['values']['extra']['tooltips'] = _webform_select_tooltips_to_text($element_options['images'], 'custom');
-    $form_state['values']['extra']['ribbon'] = _webform_select_ribbon_to_text($element_options['images'], 'custom');
+    $form_state['values']['extra']['ribbons'] = _webform_select_ribbons_to_text($element_options['images'], 'custom');
     $form_state['values']['extra']['options'] = _webform_select_image_options_to_text($element_options['images'], 'custom');
     $form_state['values']['extra']['num_images'] = $count;
   }

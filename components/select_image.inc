@@ -62,9 +62,9 @@ function _webform_edit_select_image($component) {
     $tooltips = explode('||', $component['extra']['tooltips']);
   }
 
-  $ribbon = array();
-  if(!empty($component['extra']['ribbon'])) {
-    $ribbon = explode('||', $component['extra']['ribbon']);
+  $ribbons = array();
+  if(!empty($component['extra']['ribbons'])) {
+    $ribbons = explode('||', $component['extra']['ribbons']);
   }
 
   // Create form
@@ -115,7 +115,7 @@ function _webform_edit_select_image($component) {
     $form['items']['images'][$i]['ribbon'] = array(
       '#type' => 'textfield',
       '#title' => t('Ribbon'),
-      '#default_value' => (isset($ribbon[$i]) ? $ribbon[$i] : ''),
+      '#default_value' => (isset($ribbons[$i]) ? $ribbons[$i] : ''),
       '#element_validate' => array('_webform_select_image_ribbon_validate'),
     );
   }
@@ -693,7 +693,7 @@ function _webform_select_tooltips_to_text($items) {
 /**
  * Convert an array of ribbon into text.
  */
-function _webform_select_ribbon_to_text($items) {
+function _webform_select_ribbons_to_text($items) {
   $ribbon = array();
   foreach ($items as $key => $value) {
     if(!empty($value['ribbon'])) {
